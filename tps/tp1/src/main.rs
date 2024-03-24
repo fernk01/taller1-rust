@@ -1,34 +1,31 @@
 use std::env;
-use std::io;
-
+// use std::io;
 use std::fs::File;
-// Agregando el modulo de Buffer para lectura
 use std::io::BufReader;
 use std::io::prelude::*;
-
+// use colored::*;
 
 fn main() {
     match line_command() {
         Ok((text_find, file_name)) => {
-            println!("Texto a buscar: {}", text_find);
-            println!("Nombre del archivo: {}", file_name);
+            //println!("Texto a buscar: {}", text_find);
+            //println!("Nombre del archivo: {}", file_name);
 
-            // Llamar a la función para leer el archivo línea por línea
-            match read_file_line_by_line(&file_name) {
-                Ok(lines) => {
-                    println!("Archivo leído línea por línea:");
-                    for line in &lines {
-                        if line.contains(&text_find) {
-                            println!("{}", line);
+            let file = File::open(file_name);
+            match file {
+                Ok(f) => {
+                    let lector = BufReader::new(f);
+
+                    for line in lector.lines() {
+                        match line {
+                            Ok(line) => println!("Linea leida: {}", line),
+                            Err(e) => println!("Error al leer la línea: {}", e),
                         }
                     }
-                    for line in &lines {
-                        println!("{}", line);
-                    }
-
                 }
                 Err(e) => println!("Error al leer el archivo: {}", e),
             }
+  
         }
         Err(e) => println!("Error al leer la línea de comandos: {}", e),
     }
@@ -42,7 +39,7 @@ fn line_command() -> Result<(String, String), std::io::Error> {
     if args.len() < 3 {
         return Err(std::io::Error::new(
             std::io::ErrorKind::InvalidInput,
-            "Uso: <nombre_texto> <nombre_archivo>",
+            "Uso: my_grep <regular_expression> <path/to/file>",
         ));
     }
 
@@ -51,18 +48,4 @@ fn line_command() -> Result<(String, String), std::io::Error> {
     let file_name = args[2].clone();
 
     Ok((text_find, file_name))
-}
-
-fn read_file_line_by_line(path: &str) -> io::Result<Vec<String>> {
-    let file = File::open(path)?;
-    let reader = BufReader::new(file);
-
-    let mut lines = Vec::new();
-
-    for line in reader.lines() {
-        let line = line?;
-        lines.push(line);
-    }
-
-    Ok(lines)
 }
