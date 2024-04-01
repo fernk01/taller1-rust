@@ -20,17 +20,30 @@ Ejemplos de cada elemento de las expresiones regulares usando el comando `grep` 
 
 2. **Metacaracteres:**
    - **Period (`.`):**
-   
-     ```bash
-     # Buscar cualquier palabra de cuatro letras que comience con "c" y termine con "o"
-     grep "c..o" archivo.txt
-     ```
+
+      ```bash
+         # Buscar cualquier palabra de cuatro letras que comience con "c" y termine con "o"
+         grep "t..o" archivo.txt
+      ```
+      ```bash
+         " 
+         jose todos somos
+         t11R8% casa de maria
+         "
+         # Output:
+         jose "todo"s somos
+         "t11o"R8% casa de maria
+      ```
+     
      
    - **Bracket Expresion (`[]`):**
    
      ```bash
      # Buscar palabras que comiencen con "c", seguidas de una vocal y luego una "s"
      grep "c[aeiou]s" archivo.txt
+
+     # Buscar palabras que comiencen con "c", que contengan una caracter y o un numero entre 1 y 9 y luego una "s"
+     grep "c[y1-9]s" archivo.txt
      ```
      
    - **Bracket Expresion Negada (`^[]`):**
@@ -50,18 +63,43 @@ Ejemplos de cada elemento de las expresiones regulares usando el comando `grep` 
 
 4. **Anchoring:**
    - `^`:
-   
-     ```bash
-     # Buscar líneas que comiencen con "Inicio"
-     grep "^Inicio" archivo.txt
-     ```
+      **Inicio de línea:**
+      ```bash
+      # Buscar líneas que comiencen con "Inicio"
+      grep "^jos" archivo.txt
+      ```
+
+      ```bash
+      text =
+      " 
+      jose todos somos
+      casa de maria
+      josTender turro
+      "
+      # Output:
+      "jos"e todos somos
+      "jos"Tender turro
+      ```
+
 
    - `$`:
    
-     ```bash
-     # Buscar líneas que terminen con "fin"
-     grep "fin$" archivo.txt
-     ```
+      ```bash
+      # Buscar líneas que terminen con "fin"
+      grep "os$" archivo.txt
+      ```
+
+      ```bash
+      text =
+      " 
+      jose todos somos
+      casa de maria
+      josTender turros
+      "
+      # Output:
+      jose todos som"os"
+      josTender turr"os"
+      ```
 
 5. **Repetition:**
    - `?`:
@@ -185,3 +223,6 @@ Aquí tienes ejemplos de cómo se pueden utilizar esas expresiones regulares en 
 
 Estos son solo ejemplos de cómo podrías usar estas expresiones regulares con `grep`. Pueden variar dependiendo del contenido de tu archivo y de tus necesidades específicas.
 
+
+# MyRegex
+Se planteo el uso de &str y String para la implementación de la expresión regular.

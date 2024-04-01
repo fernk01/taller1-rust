@@ -1,51 +1,46 @@
-use std::env;
-// use std::io;
-use std::fs::File;
-use std::io::BufReader;
-use std::io::prelude::*;
-// use colored::*;
+mod regex; // Esto importa el archivo regex.rs
+
+use std::env; // Importa el módulo env
+use regex::Regex; // Importa la estructura Regex
+
 
 fn main() {
-    match line_command() {
-        Ok((text_find, file_name)) => {
-            //println!("Texto a buscar: {}", text_find);
-            //println!("Nombre del archivo: {}", file_name);
+    // let re = match Regex::new("ab.c") {
+    //     Ok(regex) => regex,
+    //     Err(e) => {
+    //         println!("Error al crear la expresión regular: {}", e);
+    //         return;
+    //     }
+    // };
 
-            let file = File::open(file_name);
-            match file {
-                Ok(f) => {
-                    let lector = BufReader::new(f);
+    // let test_str = "bab1c";
+    // let result = match re.test(test_str) {
+    //     Ok(result) => result,
+    //     Err(e) => {
+    //         println!("Error al probar la expresión regular: {}", e);
+    //         return;
+    //     }
+    // };
 
-                    for line in lector.lines() {
-                        match line {
-                            Ok(line) => println!("Linea leida: {}", line),
-                            Err(e) => println!("Error al leer la línea: {}", e),
-                        }
-                    }
-                }
-                Err(e) => println!("Error al leer el archivo: {}", e),
-            }
-  
+    // // Imprime el resultado
+    // if result {
+    //     println!("La cadena '{}' coincide con la expresión regular.", test_str);
+    // } else {
+    //     println!("La cadena '{}' no coincide con la expresión regular.", test_str);
+    // }
+
+        // Obtener los argumentos de la línea de comandos
+        let args: Vec<String> = env::args().collect();
+
+        // Verificar si se proporcionaron argumentos suficientes
+        if args.len() < 3 {
+            println!("Uso: {} <expresión regular> <cadena>", args[0]);
+            return;
         }
-        Err(e) => println!("Error al leer la línea de comandos: {}", e),
-    }
-}
 
-fn line_command() -> Result<(String, String), std::io::Error> {
-    // Obtener los argumentos de la línea de comandos
-    let args: Vec<String> = env::args().collect();
+        println!("Expresión regular: {}, {}", args[1], args[1].len());
+        println!("Cadena: {}, {}", args[2], args[2].len());
 
-    // Verificar si se proporcionaron argumentos suficientes
-    if args.len() < 3 {
-        return Err(std::io::Error::new(
-            std::io::ErrorKind::InvalidInput,
-            "Uso: my_grep <regular_expression> <path/to/file>",
-        ));
-    }
-
-    // Obtener el primer y segundo argumento pasados en la línea de comandos
-    let text_find = args[1].clone();
-    let file_name = args[2].clone();
-
-    Ok((text_find, file_name))
+        let a = "a\\[1";
+        println!("Expresión regular: {}, {}", a, a.len());
 }
